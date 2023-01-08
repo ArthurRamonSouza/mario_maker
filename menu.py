@@ -2,7 +2,6 @@ import pygame
 from settings import *
 from pygame.image import load as load
 
-
 class Menu:
 
     def __init__(self):
@@ -36,13 +35,22 @@ class Menu:
         self.palm_button_rect = generic_button_rect.move(0, self.rect.height / 2).inflate(-button_margin, -button_margin)
         self.enemy_button_rect = generic_button_rect.move(self.rect.width / 2, self.rect.height / 2).inflate(-button_margin, -button_margin)
 
+        # create the buttons
+        self.buttons = pygame.sprite.Group()
+        Button(self.tile_button_rect, self.buttons, self.menu_surfaces['terrain'])
+        Button(self.coin_button_rect, self.buttons, self.menu_surfaces['coin'])
+        Button(self.palm_button_rect, self.buttons, self.menu_surfaces['enemy'])
+        Button(self.enemy_button_rect, self.buttons, self.menu_surfaces['palm fg'], self.menu_surfaces['palm bg'])
+
     def display(self):
-        pygame.draw.rect(self.display_surface, 'red', self.rect)
-        pygame.draw.rect(self.display_surface, 'green', self.tile_button_rect)
-        pygame.draw.rect(self.display_surface, 'blue', self.coin_button_rect)
-        pygame.draw.rect(self.display_surface, 'yellow', self.palm_button_rect)
-        pygame.draw.rect(self.display_surface, 'brown', self.enemy_button_rect)
-        
+        # pygame.draw.rect(self.display_surface, 'red', self.rect)
+        # pygame.draw.rect(self.display_surface, 'green', self.tile_button_rect)
+        # pygame.draw.rect(self.display_surface, 'blue', self.coin_button_rect)
+        # pygame.draw.rect(self.display_surface, 'yellow', self.palm_button_rect)
+        # pygame.draw.rect(self.display_surface, 'brown', self.enemy_button_rect)
+
+        self.buttons.update()
+        self.buttons.draw(self.display_surface)
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, rect, group, items, items_alt = None):
@@ -52,5 +60,11 @@ class Button(pygame.sprite.Sprite):
 
         # itens
         self.items = {'main': items, 'alt': items_alt}
-        self.idex = 0
+        self.index = 0
         self.main_active = True
+
+    def update(self):
+        self.image.fill(BUTTON_BG_COLOR)
+        surface = self.items['main'][self.index][1]
+        rect = surface.get_rect(center = self.rect.center) #(self.rect.width / 2, self.rect. height / 2)
+        self.image.blit(surface, rect)

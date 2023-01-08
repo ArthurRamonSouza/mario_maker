@@ -38,6 +38,7 @@ class Editor:
                 sys.exit()   
             self.pan_input(event)
             self.selection_hotkeys(event)
+            self.menu_click(event)
 
     def pan_input(self, event):
 
@@ -69,6 +70,10 @@ class Editor:
         # self.selection_index must be minor than 18, and 2 must be greather than this number
         self.selection_index = max(2, min(self.selection_index, 18))
         
+    def menu_click(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and self.menu.rect.collidepoint(mouse_position()):
+            self.selection_index = self.menu.click(mouse_position, mouse_buttons())
+
     # drawing the grid
     def draw_tile_lines(self):
         cols = (WINDOW_WIDTH // TILE_SIZE)
@@ -98,3 +103,4 @@ class Editor:
         self.draw_tile_lines()
         pygame.draw.circle(self.display_surface, 'red', self.origin, 10)
         self.menu.display()
+        print(self.selection_index)

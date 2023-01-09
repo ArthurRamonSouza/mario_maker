@@ -49,7 +49,7 @@ class Menu:
                     if sprite.items['alt']:
                         sprite.main_active = not sprite.main_active
                 if mouse_button[2]: # right click
-                    pass
+                    sprite.switch()
                 return sprite.get_id()
 
     def display(self):
@@ -76,6 +76,10 @@ class Button(pygame.sprite.Sprite):
     def get_id(self):
         return self.items['main' if self.main_active else 'alt'][self.index][0]
         
+    def switch(self):
+        self.index += 1
+        self.index = 0 if self.index >= len(self.items['main' if self.main_active else 'alt']) else self.index
+
     def update(self):
         self.image.fill(BUTTON_BG_COLOR)
         surface = self.items['main' if self.main_active else 'alt'][self.index][1]

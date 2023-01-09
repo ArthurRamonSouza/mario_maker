@@ -67,8 +67,8 @@ class Editor:
                 self.selection_index += 1
             if event.key == pygame.K_LEFT:
                 self.selection_index -= 1
-        # self.selection_index must be minor than 18, and 2 must be greather than this number
-        self.selection_index = max(2, min(self.selection_index, 18))
+            # self.selection_index must be minor than 18, and 2 must be greather than this number
+            self.selection_index = max(2, min(self.selection_index, 18))
         
     def menu_click(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and self.menu.rect.collidepoint(mouse_position()):

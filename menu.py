@@ -17,7 +17,7 @@ class Menu:
                     self.menu_surfaces[value['menu']] = [(key, load(value['menu_surf']))]
                 else:
                     self.menu_surfaces[value['menu']].append((key, load(value['menu_surf'])))
-        print(self.menu_surfaces)
+        # print(self.menu_surfaces)
 
     def create_buttons(self):
         
@@ -39,14 +39,15 @@ class Menu:
         self.buttons = pygame.sprite.Group()
         Button(self.tile_button_rect, self.buttons, self.menu_surfaces['terrain'])
         Button(self.coin_button_rect, self.buttons, self.menu_surfaces['coin'])
-        Button(self.palm_button_rect, self.buttons, self.menu_surfaces['enemy'])
-        Button(self.enemy_button_rect, self.buttons, self.menu_surfaces['palm fg'], self.menu_surfaces['palm bg'])
+        Button(self.enemy_button_rect, self.buttons, self.menu_surfaces['enemy'])
+        Button(self.palm_button_rect, self.buttons, self.menu_surfaces['palm fg'], self.menu_surfaces['palm bg'])
 
     def click(self, mouse_position, mouse_button):
         for sprite in self.buttons:
-            if sprite.rect.collidepoint(mouse_position()):
+            if sprite.rect.collidepoint(mouse_position):
                 if mouse_button[1]: # middle mouse click
-                    pass
+                    if sprite.items['alt']:
+                        sprite.main_active = not sprite.main_active
                 if mouse_button[2]: # right click
                     pass
                 return sprite.get_id()
@@ -77,6 +78,6 @@ class Button(pygame.sprite.Sprite):
         
     def update(self):
         self.image.fill(BUTTON_BG_COLOR)
-        surface = self.items['main'][self.index][1]
+        surface = self.items['main' if self.main_active else 'alt'][self.index][1]
         rect = surface.get_rect(center = (self.rect.width / 2, self.rect. height / 2))
         self.image.blit(surface, rect)

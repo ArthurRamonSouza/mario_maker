@@ -72,7 +72,7 @@ class Editor:
         
     def menu_click(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and self.menu.rect.collidepoint(mouse_position()):
-            self.selection_index = self.menu.click(mouse_position, mouse_buttons())
+            self.selection_index = self.menu.click(mouse_position(), mouse_buttons())
 
     # drawing the grid
     def draw_tile_lines(self):

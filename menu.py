@@ -52,6 +52,10 @@ class Menu:
                     sprite.switch()
                 return sprite.get_id()
 
+    def highlight_indicator(self, index)Ç
+        if EDITOR_DATA[index]['menu'] == 'terrainr':
+            pass
+
     def display(self):
         # pygame.draw.rect(self.display_surface, 'red', self.rect)
         # pygame.draw.rect(self.display_surface, 'green', self.tile_button_rect)

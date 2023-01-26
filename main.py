@@ -13,7 +13,7 @@ class Main:
 		self.editor = Editor()
 
 		# cursor
-		surface = load('C:/Users/arthu/python/graphics/cursors/mouse.png').convert_alpha()
+		surface = load('C:/Users/arthu/Vscode/Python/MarioMaker/graphics/cursors/mouse.png').convert_alpha()
 		cursor = pygame.cursors.Cursor((0,0), surface)
 		pygame.mouse.set_cursor(cursor)
 

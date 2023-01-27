@@ -28,6 +28,21 @@ class Editor:
         # menu
         self.menu =  Menu()
         
+    def get_current_cell(self):
+        distance_to_origin = vector(mouse_position() - self.origin)
+        
+        if distance_to_origin.x > 0:
+            col = int(distance_to_origin.x / TILE_SIZE)
+        else:
+            col = int(distance_to_origin.x / TILE_SIZE) -1
+
+        if distance_to_origin.y > 0:
+            row = int(distance_to_origin.y / TILE_SIZE)
+        else:
+            row = int(distance_to_origin.y / TILE_SIZE) -1
+
+        return col, row
+
     # input
     def event_loop(self):
         # event loop
@@ -39,6 +54,8 @@ class Editor:
             self.pan_input(event)
             self.selection_hotkeys(event)
             self.menu_click(event)
+            if mouse_buttons()[0] and not self.menu.rect.collidepoint(mouse_position()):
+                self.get_current_cell()
 
     def pan_input(self, event):
 
@@ -46,7 +63,7 @@ class Editor:
         if event.type == pygame.MOUSEBUTTONDOWN and mouse_buttons()[1]:
             self.pan_active = True
             self.pan_offset = vector(mouse_position()) - self.origin
-            print('Middle mouse button!')
+
         if not mouse_buttons()[1]:
             self.pan_active = False
     

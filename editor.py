@@ -99,7 +99,7 @@ class Editor:
             if current_cell != self.last_selected_cell:
 
                 if current_cell in self.canvas_data:
-                    self.canvas_data[current_cell].add(self.selection_index)
+                    self.canvas_data[current_cell].add_id(self.selection_index)
                 else:
 
                     self.canvas_data[current_cell] = CanvasTile(self.selection_index)
@@ -126,11 +126,54 @@ class Editor:
 
         self.display_surface.blit(self.support_line_surface,(0,0))
 
+    def draw_levels(self):
+        for cell_pos, tile in self.canvas_data.items():
+            pos = self.origin + vector(cell_pos) * TILE_SIZE
+
+            # terrain
+            if tile.has_terrain:
+                test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
+                test_surf.fill('brown')
+                self.display_surface.blit(test_surf, pos)
+
+            # water
+            if tile.has_water:
+                test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
+                test_surf.fill('blue')
+                self.display_surface.blit(test_surf, pos)
+
+            # coins
+            if tile.coin:
+                test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
+                match tile.coin:
+                    case 4:
+                        test_surf.fill('yellow')
+                    case 5:
+                        test_surf.fill('grey')
+                    case 6:
+                        test_surf.fill('red')
+                self.display_surface.blit(test_surf, pos)
+
+            # enemies
+            if tile.enemy:
+                test_surf = pygame.Surface((TILE_SIZE, TILE_SIZE))
+                match tile.enemy:
+                    case 7:
+                        test_surf.fill('black')
+                    case 8:
+                        test_surf.fill('black')
+                    case 9:
+                        test_surf.fill('black')
+                    case 10:
+                        test_surf.fill('black')
+                self.display_surface.blit(test_surf, pos)
+
     def run(self, dt):
         self.event_loop()
 
         # drawing
         self.display_surface.fill('gray')
+        self.draw_levels()
         self.draw_tile_lines()
         pygame.draw.circle(self.display_surface, 'red', self.origin, 10)
         self.menu.display(self.selection_index)
